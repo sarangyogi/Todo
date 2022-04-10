@@ -32,7 +32,11 @@ class Todo(db.Model):
     CreatedAt=db.Column(db.DateTime,default=datetime.utcnow())
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
 
-@app.route('/',methods=["POST","GET"])
+@app.route('/')
+def landing():
+    return render_template('index.html',user=current_user)
+
+@app.route('/home',methods=["POST","GET"])
 @login_required
 def home_page():
     if(request.method=="POST"):
@@ -42,7 +46,7 @@ def home_page():
         data=Todo(title=title,desc=description,user_id=user_id)
         db.session.add(data)
         db.session.commit()
-    return render_template('index.html',user=current_user)
+    return render_template('home.html',user=current_user)
 
 @app.route('/delete/<int:sno>')
 def deleteItem(sno):
@@ -83,7 +87,7 @@ def login():
                 flash("Wrong Credentials!",category="error")
         else:
             flash("You've to register first!",category="error")
-    return render_template('login.html')
+    return render_template('login.html',user=current_user)
 
 @app.route('/register',methods=["POST","GET"])
 def register():
@@ -103,7 +107,7 @@ def register():
             db.session.add(data)
             db.session.commit()
             return redirect(url_for('.login'))
-    return render_template('register.html')
+    return render_template('register.html',user=current_user)
 
 @app.route('/logout')
 @login_required

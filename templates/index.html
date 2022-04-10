@@ -1,51 +1,16 @@
 {% extends 'base.html' %}
 {% block todo %}
-<div class="container">
-  <form action="/" method="post">
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Title</label>
-        <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Description</label>
-        <input type="text" name="desc" class="form-control" id="exampleInputPassword1" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+<div class="land" style="display: flex;flex-direction: column; height: 90vh; background: transparent url('/static/landing_page.jpg') no-repeat center;background-size: cover;align-items: center;
+justify-content: center;">
+    <div class="h1 text-center p-4" style="background-color: #e9ebed91;min-height: 100px;display: flex;align-items: center;">
+        Each day I will accomplish one thing on my to do list.
+    </div>
+    {% if user.is_authenticated %}
+        <a href="/home" type="button" class="p-2 rounded-3 text-white text-decoration-none bg-primary bg-gradient">Go to TO DO</a>
+    {% else %}
+        <a href="/login" type="button" class="p-2 rounded-3 text-white text-decoration-none bg-primary bg-gradient"> Login to Proceed !</a>
+    {% endif %}    
 </div>
-<div class="container mt-4">
-  <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">SNO</th>
-          <th scope="col">Title</th>
-          <th scope="col">Description</th>
-          <th scope="col" class="d-none d-sm-block border-bottom-0">Created At</th>
-          <th scope="col">Operations</th>
-        </tr>
-      </thead>
-      <tbody class="border border-light">
-        {% if user %}  
-        {% for row in user.todos %}
-            <tr>
-            <th scope="row">{{loop.index}}</th>
-            <td>{{row.title}}</td>
-            <td>{{row.desc}}</td>
-            <td class="d-none d-sm-block border-bottom-0">{{row.CreatedAt.strftime('%Y-%m-%d')}}</td>
-            <td>
-              <a href="/update/{{row.sno}}" type="button" class="btn btn-info btn-sm mb-2">Update</a>
-              <a href="/delete/{{row.sno}}" type="button" class="btn btn-danger btn-sm mb-2">Delete</a>
-            </td>
-          </tr>
-        {% endfor %}
-        {% endif %}
-      </tbody>
-    </table>
-</div>
+
 {% endblock todo %}
-    
-    
-
-
-
     
